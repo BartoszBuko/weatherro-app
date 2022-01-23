@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="/css/style.css" rel="stylesheet" type="text/css" />
+
+    <title>Weatherro - <%= weather.city %></title>
+  </head>
+  <body>
+    <header>
+      <h1 class="header-title">Welcome</h1>
+      <h2 class="header-subtitle">Have a good day!</h2>
+    </header>
+    <main>
+      <div class="app-content glassmorphism">
+        <div class="glassmorphism grid-item fz-2rem m-col-span-2 temp item1">
+          <%= weather.temperature %>°C
+        </div>
+        <div class="glassmorphism grid-item fz-2rem m-col-span-2 city">
+          <%= weather.city %>
+        </div>
+        <div class="glassmorphism grid-item item3">
+          <img
+            src="http://openweathermap.org/img/w/<%= weather.icon %>.png"
+            alt="Icon"
+          />
+        </div>
+        <div class="glassmorphism grid-item item4">
+          <i class="fas fa-wind"></i><%= weather.wind %> km/h
+        </div>
+        <div class="glassmorphism grid-item lg-col-span-2 item5">
+          <%= weather.main %>
+        </div>
+        <div class="glassmorphism grid-item item6">
+          <%= weather.humidity %>%
+        </div>
+        <footer class="glassmorphism grid-item m-col-span-2 input-footer">
+          <form action="weather" method="post" autocomplete="off">
+            <input
+              type="text"
+              id="search--input"
+              name="city"
+              placeholder="City "
+              required="true"
+            />
+            <input type="submit" value="go" />
+          </form>
+        </footer>
+      </div>
+    </main>
+    <footer class="author">
+      &copy; Weatherro, Bartosz Buko <span id="year"></span>
+    </footer>
+
+    <script>
+      const date = new Date();
+      const hours = date.getHours();
+      const year = date.getFullYear();
+
+      const inputField = document.getElementById("search--input");
+      const yearSpan = document.getElementById("year");
+
+      const subtitle = document.querySelector(".header-subtitle");
+      const gridItems = document.querySelectorAll(".grid-item");
+
+      window.onload = () => {
+        let currentTheme;
+
+        // check time to select day or night theme
+        if (hours >= 20 || hours <= 6) {
+          currentTheme = "night";
+
+          subtitle.textContent = "How was your day?";
+          gridItems.forEach((item) => {
+            item.style.backgroundImage = "url(../images/27580.png)";
+          });
+        } else {
+          currentTheme = "day";
+        }
+
+        const body = document.getElementsByTagName("body")[0];
+        body.classList.add(currentTheme);
+        yearSpan.textContent = year;
+      };
+    </script>
+    <script
+      src="https://kit.fontawesome.com/feb09a26ce.js"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
